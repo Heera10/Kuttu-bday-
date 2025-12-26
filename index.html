@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ajay!</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* ===== BODY & BACKGROUND ===== */
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(0,0,0,0.7)),
+    url('bg.png') center/cover no-repeat;
+  font-family:'Poppins', sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  animation: bgZoom 20s ease-in-out infinite alternate;
+}
+
+/* Slow cinematic zoom */
+@keyframes bgZoom{
+  from{background-size:100%;}
+  to{background-size:108%;}
+}
+
+/* ===== MOVING LIGHT VIGNETTE ===== */
+body::after{
+  content:'';
+  position:absolute;
+  inset:-20%;
+  background:radial-gradient(circle at center,
+    rgba(212,175,55,0.15),
+    transparent 60%);
+  animation: lightMove 12s linear infinite;
+}
+
+@keyframes lightMove{
+  from{transform:translateX(-10%) translateY(-10%);}
+  to{transform:translateX(10%) translateY(10%);}
+}
+
+/* ===== GLASS CARD ===== */
+#content{
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);
+  border-radius:30px;
+  padding:50px 45px;
+  max-width:430px;
+  width:90%;
+  text-align:center;
+  border:1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.55),
+    inset 0 0 40px rgba(255,255,255,0.08);
+  animation: cardEnter 1.6s ease forwards;
+}
+
+@keyframes cardEnter{
+  from{opacity:0; transform:translateY(40px) scale(0.95);}
+  to{opacity:1; transform:translateY(0) scale(1);}
+}
+
+/* ===== HEADING ===== */
+h1{
+  font-family:'Playfair Display', serif;
+  font-size:2.7rem;
+  color:#f5e6b8;
+  margin-bottom:18px;
+  position:relative;
+  text-shadow:0 0 30px rgba(245,230,184,0.6);
+  overflow:hidden;
+}
+
+/* Gold shimmer sweep */
+h1::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.7),
+    transparent
+  );
+  animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer{
+  0%{left:-100%;}
+  50%{left:100%;}
+  100%{left:100%;}
+}
+
+/* ===== PARAGRAPH ===== */
+p{
+  font-size:1.15rem;
+  color:#f2f2f2;
+  line-height:1.7;
+  margin-bottom:38px;
+  opacity:0;
+  animation: textFade 1.2s ease forwards;
+  animation-delay:0.8s;
+}
+
+@keyframes textFade{
+  to{opacity:1;}
+}
+
+/* ===== BUTTON ===== */
+#startBtn{
+  padding:15px 42px;
+  font-size:1.05rem;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,#d4af37,#f5e6b8);
+  color:#1f1f1f;
+  cursor:pointer;
+  font-weight:500;
+  box-shadow:
+    0 12px 30px rgba(212,175,55,0.5),
+    inset 0 0 10px rgba(255,255,255,0.4);
+  transition:all 0.45s ease;
+}
+
+#startBtn:hover{
+  transform:translateY(-4px) scale(1.06);
+  box-shadow:
+    0 20px 55px rgba(212,175,55,0.75);
+}
+
+/* ===== CINEMATIC EXIT ===== */
+.fadeOut{
+  animation: exit 0.8s ease forwards;
+}
+
+@keyframes exit{
+  to{opacity:0; transform:scale(1.05);}
+}
+
+/* ===== MOBILE TWEAKS ===== */
+@media(max-width:500px){
+  h1{font-size:2.2rem;}
+  p{font-size:1.05rem;}
+  #content{padding:30px 20px;}
+  #startBtn{padding:12px 28px; font-size:0.95rem;}
+}
+
+@media(max-width:360px){
+  h1{font-size:1.8rem;}
+  p{font-size:0.95rem;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="content">
+  <h1>Happy Birthday Ajay, my Kuttu! 🎉</h1>
+  <p>This is not just a webpage — it’s our virtual memory album.</p>
+  <button id="startBtn">Start your way towards our memories</button>
+</div>
+
+<script>
+document.getElementById("startBtn").addEventListener("click",()=>{
+  document.getElementById("content").classList.add("fadeOut");
+  setTimeout(()=>{
+    window.location.href="memory.html";
+  },800);
+});
+</script>
+
+</body>
+</html>

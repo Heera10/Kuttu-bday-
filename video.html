@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Special Message 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* 🌸 BACKGROUND THEME */
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial, sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  /* Your original background preserved */
+  background:url("bg.png") no-repeat center center fixed;
+  background-size:cover;
+  overflow:hidden;
+}
+
+/* ✨ SOFT LIGHT ORBS */
+body::before,
+body::after{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  background:radial-gradient(circle, rgba(255,215,180,0.5), transparent 70%);
+  animation: floatLight 12s infinite alternate;
+}
+
+body::after{
+  top:10%;
+  right:10%;
+  animation-delay:6s;
+}
+
+@keyframes floatLight{
+  from{ transform:translateY(0) translateX(0); }
+  to{ transform:translateY(-60px) translateX(40px); }
+}
+
+/* 💎 MAIN CARD */
+#container {
+  width: 90%;
+  max-width: 800px;
+  /* Soft frosted background to make the letters pop */
+  background: rgba(255, 240, 245, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  text-align: center;
+  position: relative; 
+  z-index: 1; 
+}
+
+#container::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 32px;
+  /* Glow using Champagne and Teal to highlight the text */
+  background: linear-gradient(120deg, #004d4d, #f7e7ce, #008080);
+  opacity: 0.6;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+/* TITLE */
+h1{
+  /* Updated to Champagne Gold for an elegant look */
+  color: #f7e7ce;
+  margin-bottom:18px;
+  /* Text shadow for better visibility against the frosted glass */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(247, 231, 206, 0.5);
+}
+
+/* 🎥 VIDEO FRAME */
+.video-box{
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:22px;
+  overflow:hidden;
+  background:black;
+
+  box-shadow:
+    0 0 25px rgba(214,51,108,0.35),
+    0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* DRIVE IFRAME */
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* 💌 BUTTON */
+button{
+  margin-top:25px;
+  padding:14px 34px;
+  font-size:1rem;
+  border:none;
+  border-radius:35px;
+  /* Updated to Deep Pink/Coral to match the theme highlights */
+  background: linear-gradient(135deg, #d6336c, #ff6b81);
+  color:white;
+  font-weight: bold;
+  cursor:pointer;
+
+  box-shadow: 0 8px 20px rgba(214, 51, 108, 0.4);
+  animation:pulse 2.5s infinite;
+  transition:transform 0.3s;
+}
+
+button:hover{
+  transform:scale(1.08);
+}
+
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(214, 51, 108, 0.6); }
+  70%{ box-shadow:0 0 0 18px rgba(214, 51, 108, 0); }
+  100%{ box-shadow:0 0 0 0 rgba(214, 51, 108, 0); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+  <h1>Just for You 💕</h1>
+
+  <div class="video-box">
+    <iframe 
+      src="https://drive.google.com/file/d/1ittjHaTrom-RZlHgQJg68i_ZqiffwmQA/preview"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <button onclick="goNext()">
+    💌 completed watching
+  </button>
+
+</div>
+
+<script>
+function goNext(){
+  window.location.href = "birthday-wish.html";
+}
+</script>
+
+</body>
+</html>

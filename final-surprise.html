@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Journey 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial, sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background: url("bg.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#app{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  width:100%;
+  max-width:900px;
+}
+
+h1{
+  color:#33c6d6;
+  margin-top:25px;
+}
+
+#instructions{
+  max-width:700px;
+  font-size:1rem;
+  color:#33c6d6;
+  margin:10px 20px 25px;
+}
+
+#gallery{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:0 20px;
+  transition:all 0.6s ease;
+}
+
+.card{
+  width:150px;
+  height:200px;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  opacity:0.6;
+  transition:transform 0.6s ease, opacity 0.6s ease;
+  border:4px solid transparent;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  background:white;
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+.card.locked{
+  opacity:1;
+  border-color:#33c6d6;
+  cursor:default;
+}
+
+.card.reveal{
+  animation:fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+#status{
+  margin-top:20px;
+  font-size:1.2rem;
+  color:#33c6d6;
+  min-height:30px;
+}
+
+#modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+
+#modalBox{
+  background:#fff;
+  padding:25px;
+  border-radius:20px;
+  max-width:320px;
+  animation:pop 0.5s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+#modalBox p{
+  color:#33c6d6;
+  font-size:1.1rem;
+}
+
+button{
+  margin-top:15px;
+  padding:10px 22px;
+  border:none;
+  background:#33c6d6;
+  color:white;
+  border-radius:25px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<h1>Arrange Our Memories 💞</h1>
+
+<div id="instructions">
+Click the photos in the order we met 💖<br>
+Correct ones will stay constant forever.
+</div>
+
+<div id="gallery"></div>
+
+<div id="status"></div>
+
+<div id="finalHint" style="
+  display:none;
+  margin:25px 20px;
+  font-size:1.2rem;
+  color:#33c6d6;
+  animation:pop 1s ease;
+">
+  💖 All memories are in the right place...<br>
+  Now click on any picture to view its story 💫
+</div>
+
+<button onclick="goNext()" style="
+  margin-top:25px;
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  background:#33c6d6;
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+">
+  🎥 A Special Message For You
+</button>
+
+</div>
+
+<div id="modal">
+  <div id="modalBox">
+    <p id="storyText"></p>
+    <button onclick="closeModal()">Close 💗</button>
+  </div>
+</div>
+
+<script>
+const memories = [
+  { img:"image4.png", story:"This was our first pic together💫nenu okka daanine unna kinda....natho paatu nithin anna and hr mam unnaru ground floor lo....manam chat chesukunta unnam...urike ra maa ani kindaki pilicha.....riskuu + evaru aina chuste bagodhu aina kooda na kosam vachav......Tq u maa for that sweetest gesture. " },
+  { img:"image5.png", story:"The BLUE dress ..haha ur fav one...tamariki gurtundo ledho...aroju mana first fight aiyindi......chala kopam tepinchav naku ..papam baaga tittulu kooda tinnav...adey first time na kopam nuv chudadam....aa time loney nak telisindi meeru mammalni kooda chustaru ani..memu kooda baguntam ani meekuu anispistunnadi ani🥰" },
+  { img:"image6.png", story:"Ahhh!!! Aayudha pooja day!! eppudu pics loney chusav saree lo nannu..aa roju first time direct ga chusav....I still remember the excitement we had for each other......General ga nuv panche veyyav but nenu adiga ani na kosam vesukunnav...tq maaaa....But ey maata ki aa maata cheppali ..em untav maa nuv panche lo ...abababaaaaaa..super eheyyyy....best day bhaley njoy chesam." },
+  { img:"image7.png", story:"A memory I want to keep forever ❤️.....Our all time fav pic......u wearing my fav colour and me wearing ur fav dress...enduk ishtamo aa dress daniki verey reason undi le adi verey vishyam anuko.......haha......ee pic lo bhale cute untam maa manam.....nak chala ishtam ee pic." },
+  { img:"image8.png", story:"Nek ishtam aina green colour + nek ishtam aina pattu saree....vahhh wht a combination💖 surprise feel aiyav kada sudden ga saree lo chusi..kadh kadh shock..heeehehe......aa day ekkuva lenu neetho but unnantha sepu chala antey chala baaga unnam ...........aa pic loney telustunnadi we are sooo happy ani....nijam cheppala......aa day antha akkade netho undipoyi kaburlu cheppali anipinchindi maaa....but avvale...its fine i got the best memories to hold with" },
+  { img:"image9.png", story:"My BIG day.......but it actually became big when u wished me at sharp 00:00am ...nuv padukundipoyav emo mrng lechaka 7:30-8:00 lopu happy bday maaa ani petti vadilestav emo anukunna....but nek entho ishatam aina niddara ni pakkana petti na kosam 12 varaku undi wish chesav chudu........FLAT aipoyaaa maaa........adi kooda 1 msg kadh ..Mr Ajay kumar na kosam 2-3 paragraphs rasaru..abababaaa aa feel ela undho matallo cheppalenu maaa.....night wish oka yettu aitey aa roju evening antha na pakkane undi nak entho ishtam aina tender coconut icecream techi...nenu adi motham tiney daaka kaaallu noppi vachina chetulu challaga freeze avtunna atle pattukoni unnav.....eppudu kid kid antav ga..aa roju nannu nijam ga oka kid laaga chusukunnav maa......My best bday ever!!!! THANK U Kuttttuuuuuuuu" }
+];
+
+let currentIndex = 0;
+let gameCompleted = false;
+let justCompleted = false;
+
+const gallery = document.getElementById("gallery");
+const shuffled = [...memories].sort(() => Math.random() - 0.5);
+
+shuffled.forEach(mem => createCard(mem));
+
+function createCard(mem){
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML = `<img src="${mem.img}" alt="">`;
+  div.onclick = () => selectCard(mem, div);
+  gallery.appendChild(div);
+}
+
+function selectCard(mem, card){
+  if(card.classList.contains("locked")) return;
+
+  if(mem.img === memories[currentIndex].img){
+    card.classList.add("locked");
+    document.getElementById("status").textContent = "💖 This memory is constant";
+    currentIndex++;
+
+    if(currentIndex === memories.length){
+      gameCompleted = true;
+      justCompleted = true;
+      document.getElementById("status").textContent = "";
+      document.getElementById("finalHint").style.display = "block";
+      setTimeout(arrangeInOrder, 800);
+    }
+  } else {
+    document.getElementById("status").textContent =
+      "❌ Oops… not this one. Try again 💫";
+  }
+}
+
+function arrangeInOrder(){
+  gallery.innerHTML = "";
+  memories.forEach((mem, i) => {
+    const div = document.createElement("div");
+    div.className = "card locked reveal";
+    div.style.animationDelay = `${i * 0.15}s`;
+    div.innerHTML = `<img src="${mem.img}" alt="">`;
+    gallery.appendChild(div);
+  });
+}
+
+gallery.addEventListener("click", e => {
+  if(!gameCompleted) return;
+
+  const card = e.target.closest(".card");
+  if(!card) return;
+
+  if(justCompleted){
+    justCompleted = false;
+    return;
+  }
+
+  const src = card.querySelector("img").src.split("/").pop();
+  const mem = memories.find(m => m.img === src);
+
+  document.getElementById("storyText").textContent = mem.story;
+  document.getElementById("modal").style.display = "flex";
+});
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+};
+
+function goNext(){
+  window.location.href = "video.html";
+}
+</script>
+
+</body>
+</html>

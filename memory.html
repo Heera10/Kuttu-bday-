@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url('bg.png') center/cover no-repeat;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-top: 60px;
+  overflow-x: hidden;
+  animation: bgZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes bgZoom{
+  from{background-size:100%;}
+  to{background-size:108%;}
+}
+
+/* ===== CARD ===== */
+.gift-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  padding: 32px;
+  border-radius: 26px;
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.55),
+    inset 0 0 30px rgba(255,255,255,0.08);
+  text-align: center;
+  max-width: 90%;
+  width: 360px;
+  margin: 20px;
+  animation: pop 1s ease;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== IMAGE ===== */
+.gift-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  margin-bottom: 22px;
+  object-fit: cover;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+}
+
+/* ===== TEXT ===== */
+.gift-card p {
+  font-size: 1.12rem;
+  color: #f5e6b8;
+  margin-bottom: 24px;
+  line-height: 1.7;
+  text-shadow: 0 0 12px rgba(245,230,184,0.4);
+}
+
+/* ===== BUTTON ===== */
+.gift-card button {
+  padding: 12px 28px;
+  font-size: 1rem;
+  background: linear-gradient(135deg,#d4af37,#f5e6b8);
+  border: none;
+  border-radius: 30px;
+  color: #1f1f1f;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 12px 30px rgba(212,175,55,0.45);
+}
+
+.gift-card button:hover {
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 20px 45px rgba(212,175,55,0.75);
+}
+
+/* ===== SLIDE IN ===== */
+.slide-in {
+  transform: translateX(100vw);
+  opacity: 0;
+  animation: slideToCenter 1s forwards;
+}
+
+@keyframes slideToCenter {
+  0% { transform: translateX(100vw); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ===== MOBILE TWEAKS ===== */
+@media(max-width:500px){
+  .gift-card {
+    width: 90%;
+    padding: 25px;
+  }
+  .gift-card p {
+    font-size: 1rem;
+  }
+  .gift-card img {
+    height: auto; /* ensures image scales properly */
+  }
+  .gift-card button {
+    font-size: 0.95rem;
+    padding: 10px 24px;
+  }
+}
+
+@media(max-width:360px){
+  .gift-card p {
+    font-size: 0.95rem;
+  }
+  .gift-card button {
+    font-size: 0.9rem;
+    padding: 8px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="gift-card" id="card1">
+  <img src="image1.png" alt="Ajay's Photo" id="firstImage">
+  <p>Nenu eppudu cheppanu idi but eroju nee bday kabbati cheptunna...............I'm sooo lucky to have you maaa 🥰</p>
+  <button class="nextButton" data-index="2">Next Surprise --> ❤️</button>
+</div>
+
+<script>
+const firstImage = document.getElementById('firstImage');
+
+const cardsData = [
+  null,
+  {
+    image: 'image1.png',
+    message: "Nenu eppudu cheppanu idi but eroju nee bday kabbati cheptunna...............I'm sooo lucky to have you maaa 🥰",
+    buttonText: "Next Surprise --> ❤️"
+  },
+  {
+    image: 'image2.png',
+    message: "Thank you choooo much for coming into my life maaa.....",
+    buttonText: "Next Surprise --> 💖"
+  },
+  {
+    image: 'image3.png',
+    message: "Looking choooo cuteeee in this Kuttu🥰....stay happy like this maa",
+    buttonText: "Let's move Further to unlock our Together memories🎉"
+  }
+];
+
+function createCard(index) {
+  const cardData = cardsData[index];
+  const firstWidth = firstImage.clientWidth;
+  const firstHeight = firstImage.clientHeight;
+
+  const newCard = document.createElement('div');
+  newCard.classList.add('gift-card', 'slide-in');
+
+  const newImage = document.createElement('img');
+  newImage.src = cardData.image;
+  newImage.alt = "Memory " + index;
+  newImage.style.width = firstWidth + 'px';
+  newImage.style.height = firstHeight + 'px';
+  newImage.style.objectFit = 'cover';
+  newImage.style.borderRadius = '18px';
+  newImage.style.marginBottom = '22px';
+
+  const newMessage = document.createElement('p');
+  newMessage.textContent = cardData.message;
+
+  const newButton = document.createElement('button');
+  newButton.textContent = cardData.buttonText;
+  newButton.classList.add('nextButton');
+  newButton.setAttribute('data-index', index + 1);
+
+  newCard.appendChild(newImage);
+  newCard.appendChild(newMessage);
+  newCard.appendChild(newButton);
+
+  document.body.appendChild(newCard);
+}
+
+document.body.addEventListener('click', (e) => {
+  if (e.target.classList.contains('nextButton')) {
+    const nextIndex = parseInt(e.target.getAttribute('data-index'));
+    if (nextIndex <= cardsData.length - 1) {
+      createCard(nextIndex);
+    } else {
+      window.location.href = "memory-game.html";
+    }
+  }
+});
+</script>
+
+</body>
+</html>

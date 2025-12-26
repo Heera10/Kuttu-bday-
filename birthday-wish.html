@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday My Love 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* 🌸 BACKGROUND */
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial, sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:url("bg.png") no-repeat center center fixed;
+  background-size:cover;
+  overflow:hidden;
+}
+
+/* ✨ SOFT SHIMMER LIGHTS */
+body::before,
+body::after{
+  content:"";
+  position:absolute;
+  width:320px;
+  height:320px;
+  background:radial-gradient(circle, rgba(255,255,255,0.35), transparent 70%);
+  animation: drift 14s infinite alternate;
+}
+
+body::after{
+  animation-delay:7s;
+  right:15%;
+  top:10%;
+}
+
+@keyframes drift{
+  from{ transform:translate(0,0); }
+  to{ transform:translate(60px,-40px); }
+}
+
+/* 💎 WISH BOX */
+#wishBox{
+  background:rgba(255,255,255,0.75);
+  backdrop-filter: blur(14px);
+  padding:38px 32px;
+  border-radius:30px;
+  max-width:420px;
+  text-align:center;
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.25),
+    inset 0 0 30px rgba(255,255,255,0.6);
+
+  animation: pop 0.9s ease, breathe 5s ease-in-out infinite;
+  position:relative;
+  z-index:2;
+}
+
+/* ✨ GLOW FRAME */
+#wishBox::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:32px;
+  background:linear-gradient(120deg,#ffb6c1,#ffd6a5,#ffb6c1);
+  filter:blur(10px);
+  opacity:0.6;
+  z-index:-1;
+}
+
+@keyframes pop{
+  from{ transform:scale(0.85); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
+}
+
+@keyframes breathe{
+  0%,100%{ box-shadow:0 20px 45px rgba(0,0,0,0.25); }
+  50%{ box-shadow:0 25px 55px rgba(214,51,108,0.35); }
+}
+
+/* TEXT */
+h1{
+  color:#d6336c;
+  margin-bottom:15px;
+  text-shadow:0 0 10px rgba(214,51,108,0.4);
+}
+
+p{
+  font-size:1.1rem;
+  color:#555;
+  line-height:1.6;
+}
+
+/* 💖 SINGLE SOFT HEART FLOAT */
+.heart{
+  position:absolute;
+  font-size:26px;
+  animation: softFloat 6s ease-in-out infinite;
+  opacity:0.7;
+}
+
+@keyframes softFloat{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-40px); }
+  100%{ transform:translateY(0); }
+}
+
+/* 🔹 ADDED BUTTON STYLE (NEW) */
+.btn{
+  margin-top:20px;
+  display:inline-block;
+  padding:12px 28px;
+  background:#d6336c;
+  color:white;
+  text-decoration:none;
+  border-radius:25px;
+  font-weight:bold;
+  box-shadow:0 10px 25px rgba(214,51,108,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<div id="wishBox">
+  <h1>Happy Birthday My BFF🎉💖</h1>
+  <p>
+    From the moment you came into my life,<br>
+    everything became brighter ✨<br><br>
+
+    Thank you for being with me,<br>
+    protecting me,<br>
+    and standing beside me always 💕<br><br>
+
+    I’m so lucky to call you mine 🥰<br><br>
+
+    <strong>Always Stay Happy and stay the same with me my kuttu,<br>
+    ❤️ Heera</strong>
+  </p>
+
+  <!-- 💖 Decorative Hearts -->
+  <div class="heart" style="top:-20px; left:30px;">❤️</div>
+  <div class="heart" style="bottom:-20px; right:40px; animation-delay:2s;">💖</div>
+
+  <!-- 🔹 ADDED REDIRECT BUTTON (NEW) -->
+  <a href="video1.html" class="btn">Let's Celebrate your bday together at ur place🎥💖</a>
+</div>
+
+</body>
+</html>

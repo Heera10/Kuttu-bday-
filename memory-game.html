@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock Our Memories 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url('bg.png') center/cover no-repeat;
+  font-family:'Poppins', sans-serif;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  animation:bgZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes bgZoom{
+  from{background-size:100%;}
+  to{background-size:108%;}
+}
+
+h1 {
+  color:#f5e6b8;
+  margin-bottom:30px;
+  font-family:'Playfair Display', serif;
+  text-shadow:0 0 25px rgba(245,230,184,0.6);
+}
+
+/* ===== GAME BOARD ===== */
+#game-board {
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:18px;
+  width:100%;
+  max-width:680px;
+  padding:25px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);
+  border-radius:30px;
+  border:1px solid rgba(255,255,255,0.25);
+  box-shadow:0 30px 70px rgba(0,0,0,0.55);
+}
+
+/* ===== CARD ===== */
+.card {
+  width:100%;
+  padding-top:100%;
+  position:relative;
+  perspective:1200px;
+  cursor:pointer;
+}
+
+.card-inner {
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  transform-style:preserve-3d;
+  transition:transform 0.7s cubic-bezier(0.68,-0.55,0.27,1.55);
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  backface-visibility:hidden;
+}
+
+/* FRONT */
+.card-front {
+  background:rgba(255,255,255,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2.2rem;
+  color:#f5e6b8;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.15);
+}
+
+/* BACK */
+.card-back {
+  transform: rotateY(180deg);
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2.5rem;
+  color:#fff;
+}
+
+.card:hover {
+  transform:scale(1.06);
+}
+
+/* ===== MESSAGE ===== */
+#message {
+  display:none;
+  margin-top:35px;
+  font-size:1.35rem;
+  color:#f5e6b8;
+  text-align:center;
+  font-family:'Playfair Display', serif;
+  animation:pop 1s ease;
+  text-shadow:0 0 20px rgba(245,230,184,0.6);
+}
+
+@keyframes pop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ===== HEART ANIMATION ===== */
+.heart {
+  position:fixed;
+  bottom:0;
+  font-size:24px;
+  animation:floatUp 3.5s ease forwards;
+  pointer-events:none;
+  filter: drop-shadow(0 0 10px rgba(255,0,100,0.6));
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-300px); opacity: 0; }
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:600px){
+  #game-board{
+    grid-template-columns: repeat(4, 1fr);
+    padding:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Match All to Unlock 💞</h1>
+<div id="game-board"></div>
+<div id="message">🎉 You unlocked our forever memory 🥰💖</div>
+
+<script>
+const images = [
+  'image1.png',
+  'image2.png',
+  'image3.png'
+];
+
+const emojis = ['❤️','❤️','😊','😊'];
+
+let cardsArray = [...images, ...images, ...emojis];
+cardsArray.sort(() => Math.random() - 0.5);
+
+const gameBoard = document.getElementById('game-board');
+
+let flippedCards = [];
+let matchedCount = 0;
+let canClick = true;
+const totalCards = cardsArray.length;
+
+cardsArray.forEach(value => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.value = value;
+
+  const inner = document.createElement('div');
+  inner.className = 'card-inner';
+
+  const front = document.createElement('div');
+  front.className = 'card-front';
+  front.textContent = '❓';
+
+  const back = document.createElement('div');
+  back.className = 'card-back';
+
+  if (value.includes('.png') || value.includes('.jpeg')) {
+    back.style.backgroundImage = `url(${value})`;
+  } else {
+    back.textContent = value;
+  }
+
+  inner.append(front, back);
+  card.appendChild(inner);
+  gameBoard.appendChild(card);
+
+  card.addEventListener('click', () => flipCard(card));
+});
+
+function flipCard(card) {
+  if (!canClick || card.classList.contains('flipped')) return;
+
+  card.classList.add('flipped');
+  flippedCards.push(card);
+
+  if (flippedCards.length === 2) {
+    canClick = false;
+    setTimeout(checkMatch, 700);
+  }
+}
+
+function checkMatch() {
+  const [c1, c2] = flippedCards;
+
+  if (c1.dataset.value === c2.dataset.value) {
+    matchedCount += 2;
+    flippedCards = [];
+    canClick = true;
+
+    if (matchedCount === totalCards) {
+      unlockMessage();
+    }
+  } else {
+    setTimeout(() => {
+      flippedCards.forEach(card => card.classList.remove('flipped'));
+      flippedCards = [];
+      canClick = true;
+    }, 500);
+  }
+}
+
+function unlockMessage() {
+  document.getElementById('message').style.display = 'block';
+
+  for (let i = 0; i < 30; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3500);
+  }
+
+  setTimeout(() => {
+    sessionStorage.setItem("gameCompleted", "true");
+    window.location.href = "final-surprise.html";
+  }, 2500);
+}
+</script>
+
+</body>
+</html>
+
+
+
